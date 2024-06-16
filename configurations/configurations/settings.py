@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     
     # local app
     'user_app',
+    'todo_app'
 ]
 
 SITE_ID = 1
