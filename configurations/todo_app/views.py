@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.filters import SearchFilter
 from .models import Note
 from .serializers import NoteSaveSerializer,NoteSerializer
 from rest_framework.generics import (CreateAPIView ,
@@ -27,12 +28,36 @@ class CreateNoteAPI(CreateAPIView):
     # queryset = None
     serializer_class = NoteSaveSerializer
 
+# class NotesAPI(ListCreateAPIView):
+#     serializer_class=NoteSerializer
+#     queryset = Note.objects.all()
+
+#     def get_queryset(self):
+#         queryset=Note.objects.filter(author=self.request.user,cat = 1)
+#         return queryset
+
 class NotesAPI(ListCreateAPIView):
-    serializer_class=NoteSerializer
+    serializer_class = NoteSerializer
     queryset = Note.objects.all()
+    filter_backends = [SearchFilter]
+    search_fields = ["cat"]
 
     def get_queryset(self):
-        queryset=Note.objects.filter(author=self.request.user)
+        #queryset = Note.objects.filter(author=self.request.user)
+        cat = self.kwargs.get("cat")  # Получаем значение cat из URL
+        print(cat)
+        if cat is not None:
+            queryset = Note.objects.filter(author=self.request.user, cat=cat)
+        return queryset
+    
+class NotesAPI22(ListCreateAPIView):
+    serializer_class = NoteSerializer
+    queryset = Note.objects.all()
+    filter_backends = [SearchFilter]
+    search_fields = ["cat"]
+
+    def get_queryset(self):
+        queryset = Note.objects.filter(cat=2)
         return queryset
 
 class NoteRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
