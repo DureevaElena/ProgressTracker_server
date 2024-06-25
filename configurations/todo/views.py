@@ -89,6 +89,16 @@ class NotesAPI22(ListCreateAPIView):
         return queryset
 
 
+class NotesAPI11(ListCreateAPIView):
+    serializer_class = NoteSerializer
+    queryset = NoteTodo.objects.all()
+    filter_backends = [SearchFilter]
+    search_fields = ["cattodo"]
+
+    def get_queryset(self):
+        queryset = NoteTodo.objects.filter(cattodo=1)
+        return queryset
+
 
 
 class NoteRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
@@ -120,16 +130,14 @@ class NotePictureUploadView(generics.UpdateAPIView):
     queryset = NoteTodo.objects.all()
 
     def get_object(self):
-        # Получаем объект записи по переданному в URL идентификатору (pk)
+
         pk = self.kwargs.get('pk')
         return self.queryset.get(pk=pk)
 
     def put(self, request, *args, **kwargs):
-        # Обработка PUT-запроса (полное обновление объекта)
         return self.update(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
-        # Обработка PATCH-запроса (частичное обновление объекта)
         return self.partial_update(request, *args, **kwargs)
     
 

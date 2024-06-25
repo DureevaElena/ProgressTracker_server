@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./configurations/configurations:/app/configurations
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: todo  # Имя вашей базы данных PostgreSQL
+      POSTGRES_USER: postgres  # Имя пользователя PostgreSQL
+      POSTGRES_PASSWORD: lena1818  # Пароль пользователя PostgreSQL
+    ports:
+      - "5432:5432"  # Проброс порта PostgreSQL
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+
+volumes:
+  pgdata:

@@ -12,6 +12,7 @@ urlpatterns=[
     path("getListOfStatusNotesOverdate/",views.NotesAPIStatusOD.as_view()),
     path("getListOfStatusNotesEnd/",views.NotesAPIStatusEnd.as_view()),    
     path("getListOfNotesCommunity/",views.NotesAPI22.as_view()),
+    path("getListOfNotesIndivid/",views.NotesAPI11.as_view()),
     path("deleteUpdateNote/<pk>/",views.NoteRetrieveUpdateDestroyAPIView.as_view()),
     path("note/<int:pk>/update/", views.NotePictureUploadView.as_view(), name='note-picture-update'),
 
