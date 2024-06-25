@@ -95,6 +95,9 @@ DATABASES = {
         'PASSWORD': 'lena1818',
         'HOST': 'db',
         'PORT': '5432',
+        'OPTIONS': {
+            'client_encoding': 'UTF8',  # Укажите соответствующую кодировку
+        },
     }
 }
 

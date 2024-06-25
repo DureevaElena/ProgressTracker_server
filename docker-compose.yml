@@ -5,9 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    command: ["gunicorn", "configurations.wsgi:application", "--bind", "0.0.0.0:8002"]
     ports:
-      - "8000:8000"
+      - "8002:8002"
     volumes:
       - ./configurations/configurations:/app/configurations
     depends_on:
@@ -16,11 +16,11 @@ services:
   db:
     image: postgres:latest
     environment:
-      POSTGRES_DB: todo  # Имя вашей базы данных PostgreSQL
-      POSTGRES_USER: postgres  # Имя пользователя PostgreSQL
-      POSTGRES_PASSWORD: lena1818  # Пароль пользователя PostgreSQL
+      POSTGRES_DB: todo
+      POSTGRES_USER: postgres 
+      POSTGRES_PASSWORD: lena1818
     ports:
-      - "5432:5432"  # Проброс порта PostgreSQL
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data/
 
